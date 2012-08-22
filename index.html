@@ -32,6 +32,8 @@
       <section>
         <p>Middleman Delpoy -- Deploy a <a href="http://middlemanapp.com/">middleman</a> built site over rsync.</p>
 
+<p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
+
 <h1></h1>
 
 <h2>QUICK START</h2>
@@ -87,9 +89,9 @@ end
 
 <p>Default is <code>22</code>.</p>
 
-<p>To pass the <code>--delete</code> option to rsync, add:</p>
+<p>To remove orphaned files or directories on the remote host, add:</p>
 
-<pre><code>  deploy.delete = true
+<pre><code>  deploy.clean = true
 </code></pre>
 
 <p>Default is <code>false</code>.</p>
