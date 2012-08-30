@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Middleman-deploy by tvaughan</title>
+    <title>Middleman Deploy by tvaughan</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -16,8 +16,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">Middleman-deploy</h1>
-        <p class="header">Deploy a middleman built site over rsync.</p>
+        <h1 class="header">Middleman Deploy</h1>
+        <p class="header">Deploy a middleman built site over rsync or to github pages.</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/tvaughan/middleman-deploy/zipball/master">Download ZIP</a></li>
@@ -30,7 +30,7 @@
 
       </header>
       <section>
-        <p>Middleman Delpoy -- Deploy a <a href="http://middlemanapp.com/">middleman</a> built site over rsync.</p>
+        <p>Middleman Delpoy -- Deploy a <a href="http://middlemanapp.com/">middleman</a> built site over rsync or to github pages.</p>
 
 <p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
 
@@ -38,7 +38,7 @@
 
 <h2>QUICK START</h2>
 
-<p>Be sure that <code>rsync</code> is installed.</p>
+<p>If deploying through <code>rsync</code>, be sure it is installed.</p>
 
 <h3>Step 1</h3>
 
@@ -63,22 +63,21 @@ cd example-site
 <pre><code>bundle install
 </code></pre>
 
-<h3>Step 4</h3>
+<h3>Step 4a - Rsync setup</h3>
 
 <h4>These settings are required.</h4>
 
 <p>Edit <code>config.rb</code>, and add:</p>
 
 <pre><code>activate :deploy do |deploy|
-  deploy.user = "tvaughan"
-  deploy.host = "www.example.com"
-  deploy.path = "/srv/www/site"
+  deploy.method = :rsync
+  deploy.user   = "tvaughan"
+  deploy.host   = "www.example.com"
+  deploy.path   = "/srv/www/site"
 end
 </code></pre>
 
 <p>Adjust these values accordingly.</p>
-
-<h3>Step 4.1</h3>
 
 <h4>These settings are optional.</h4>
 
@@ -95,6 +94,18 @@ end
 </code></pre>
 
 <p>Default is <code>false</code>.</p>
+
+<h3>Step 4b - Github Pages setup</h3>
+
+<p>Edit <code>config.rb</code>, and add:</p>
+
+<pre><code>activate :deploy do |deploy|
+  deploy.method = :git
+end
+</code></pre>
+
+<p>The git deploy method assumes your project is in a repository with
+github set up as <code>origin</code> and a working <code>gh-pages</code> branch already in place.</p>
 
 <h3>Step 5</h3>
 
