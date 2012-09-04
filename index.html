@@ -51,7 +51,7 @@ cd example-site
 
 <p>Edit <code>Gemfile</code>, and add:</p>
 
-<pre><code>gem "middleman-deploy"
+<pre><code>gem "middleman-deploy", "~&gt;0.0.1"
 </code></pre>
 
 <p>Then run:</p>
@@ -67,9 +67,9 @@ cd example-site
 
 <pre><code>activate :deploy do |deploy|
   deploy.method = :rsync
-  deploy.user   = "tvaughan"
-  deploy.host   = "www.example.com"
-  deploy.path   = "/srv/www/site"
+  deploy.user = "tvaughan"
+  deploy.host = "www.example.com"
+  deploy.path = "/srv/www/site"
 end
 </code></pre>
 
@@ -91,7 +91,7 @@ end
 
 <p>Default is <code>false</code>.</p>
 
-<h3>Step 4b - Github Pages setup</h3>
+<h3>Step 4b - GitHub Pages setup</h3>
 
 <p>Edit <code>config.rb</code>, and add:</p>
 
@@ -105,7 +105,7 @@ github set up as <code>origin</code> and a working <code>gh-pages</code> branch 
 
 <h3>Step 5</h3>
 
-<pre><code>middleman build
+<pre><code>middleman build [--clean]
 middleman deploy
 </code></pre>
 
