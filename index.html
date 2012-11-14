@@ -30,7 +30,11 @@
 
       </header>
       <section>
-        <p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
+        <p>Middleman Delpoy -- Deploy a <a href="http://middlemanapp.com/">middleman</a> built site over rsync or via git (e.g. gh-pages on github).</p>
+
+<p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
+
+<h1></h1>
 
 <h2>QUICK START</h2>
 
@@ -134,11 +138,39 @@ remotes.</p>
 <p>Default is <code>gh-pages</code>. Run <code>git branch -a</code> to see a list of possible
 branches.</p>
 
+<h3>Step 4c - FTP setup</h3>
+
+<h4>These settings are required.</h4>
+
+<p>Edit <code>config.rb</code>, and add:</p>
+
+<pre><code>activate :deploy do |deploy|
+  deploy.method = :ftp
+  deploy.host = "ftp.example.com"
+  deploy.user = "tvaughan"
+  deploy.password = "secret"
+  deploy.path = "/srv/www/site"
+end
+</code></pre>
+
+<p>Adjust these values accordingly.</p>
+
 <h3>Step 5</h3>
 
 <pre><code>middleman build [--clean]
 middleman deploy [--clean]
 </code></pre>
+
+<p>To automatically run middleman-deploy after <code>middleman build</code>, add:</p>
+
+<pre><code>  deploy.after_build = true
+</code></pre>
+
+<p>Default is <code>false</code>.</p>
+
+<p>Please note that if the <code>--clean</code> or <code>--no-clean</code> option is passed to
+<code>middleman build</code> it will not be passed to <code>middleman deploy</code>. For now
+only the value of <code>deploy.clean</code> in <code>config.rb</code> will be used.</p>
 
 <h3>NOTES</h3>
 
