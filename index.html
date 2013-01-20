@@ -30,7 +30,7 @@
 
       </header>
       <section>
-        <p>Middleman Delpoy -- Deploy a <a href="http://middlemanapp.com/">middleman</a> built site over rsync or via git (e.g. gh-pages on github).</p>
+        <p>Middleman Delpoy - Deploy a <a href="http://middlemanapp.com/">middleman</a> built site over rsync, git (e.g. gh-pages on github) or via ftp.</p>
 
 <p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
 
@@ -53,7 +53,7 @@ cd example-site
 
 <p>Edit <code>Gemfile</code>, and add:</p>
 
-<pre><code>gem "middleman-deploy", "~&gt;0.0.1"
+<pre><code>gem "middleman-deploy", "~&gt; 0.0.10"
 </code></pre>
 
 <p>Then run:</p>
@@ -97,28 +97,15 @@ end
 
 <h3>Step 4b - Git setup</h3>
 
-<p>First be sure that you have already placed your project under revision
-control using git.</p>
-
-<p>For example, for the default values of remote="master" and
-branch="gh-pages", the output of <code>git branch -a</code> should look like:</p>
-
-<pre><code>  gh-pages
-* master
-  remotes/origin/HEAD -&gt; origin/master
-  remotes/origin/gh-pages
-  remotes/origin/master
-</code></pre>
-
-<p>This shows that "gh-pages" exists in the remote and local repos. There
-needs to be at least one commit in "gh-pages" with which to start.</p>
-
 <p>Edit <code>config.rb</code>, and add:</p>
 
 <pre><code>activate :deploy do |deploy|
   deploy.method = :git
 end
 </code></pre>
+
+<p>By default this will deploy to the <code>gh-pages</code> branch on the <code>origin</code>
+remote. The <code>build</code> directory will become a git repo.</p>
 
 <h4>These settings are optional.</h4>
 
@@ -127,16 +114,19 @@ end
 <pre><code>  deploy.remote = "some-other-remote-name"
 </code></pre>
 
-<p>Default is <code>origin</code>. Run <code>git remote -v</code> to see a list of possible
-remotes.</p>
+<p>Default is <code>origin</code>. This can be a remote name or a git url.</p>
+
+<p>If you use a remote name, you must first add it using <code>git remote
+add</code>. Run <code>git remote -v</code> to see a list of possible remote names. If
+you use a git url, it must end with '.git'.</p>
 
 <p>To use a particular branch, add:</p>
 
 <pre><code>  deploy.branch = "some-other-branch-name"
 </code></pre>
 
-<p>Default is <code>gh-pages</code>. Run <code>git branch -a</code> to see a list of possible
-branches.</p>
+<p>Default is <code>gh-pages</code>. This branch will be created on the remote if it
+doesn't already exist.</p>
 
 <h3>Step 4c - FTP setup</h3>
 
