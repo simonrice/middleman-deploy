@@ -30,20 +30,20 @@
 
       </header>
       <section>
-        <h2>QUICK START</h2>
+        <p>Middleman Deploy - Deploy a <a href="http://middlemanapp.com/">middleman</a>
+built site over rsync, ftp, or git (e.g. gh-pages on github).</p>
 
-<h3>Step 1</h3>
+<p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
 
-<pre><code>gem install middleman-deploy
-</code></pre>
+<h1>QUICK START</h1>
 
-<h3>Step 2</h3>
+<h2>Step 1</h2>
 
 <pre><code>middleman init example-site
 cd example-site
 </code></pre>
 
-<h3>Step 3</h3>
+<h2>Step 2</h2>
 
 <p>Edit <code>Gemfile</code>, and add:</p>
 
@@ -55,11 +55,11 @@ cd example-site
 <pre><code>bundle install
 </code></pre>
 
-<h3>Step 4a - Rsync setup</h3>
+<h2>Step 3a - Rsync setup</h2>
 
 <p>First be sure that <code>rsync</code> is installed.</p>
 
-<h4>These settings are required.</h4>
+<p><strong>These settings are required.</strong></p>
 
 <p>Edit <code>config.rb</code>, and add:</p>
 
@@ -73,7 +73,7 @@ end
 
 <p>Adjust these values accordingly.</p>
 
-<h4>These settings are optional.</h4>
+<p><strong>These settings are optional.</strong></p>
 
 <p>To use a particular SSH port, add:</p>
 
@@ -89,7 +89,11 @@ end
 
 <p>Default is <code>false</code>.</p>
 
-<h3>Step 4b - Git setup</h3>
+<h2>Step 3b - Git setup</h2>
+
+<p>First be sure that <code>git</code> is installed.</p>
+
+<p><strong>These settings are required.</strong></p>
 
 <p>Edit <code>config.rb</code>, and add:</p>
 
@@ -101,7 +105,7 @@ end
 <p>By default this will deploy to the <code>gh-pages</code> branch on the <code>origin</code>
 remote. The <code>build</code> directory will become a git repo.</p>
 
-<h4>These settings are optional.</h4>
+<p><strong>These settings are optional.</strong></p>
 
 <p>To use a particular remote, add:</p>
 
@@ -122,9 +126,9 @@ you use a git url, it must end with '.git'.</p>
 <p>Default is <code>gh-pages</code>. This branch will be created on the remote if it
 doesn't already exist.</p>
 
-<h3>Step 4c - FTP setup</h3>
+<h2>Step 3c - FTP setup</h2>
 
-<h4>These settings are required.</h4>
+<p><strong>These settings are required.</strong></p>
 
 <p>Edit <code>config.rb</code>, and add:</p>
 
@@ -139,7 +143,7 @@ end
 
 <p>Adjust these values accordingly.</p>
 
-<h3>Step 5</h3>
+<h2>Step 4</h2>
 
 <pre><code>middleman build [--clean]
 middleman deploy [--clean]
@@ -152,13 +156,14 @@ middleman deploy [--clean]
 
 <p>Default is <code>false</code>.</p>
 
-<p>Please note that if the <code>--clean</code> or <code>--no-clean</code> option is passed to
-<code>middleman build</code> it will not be passed to <code>middleman deploy</code>. For now
-only the value of <code>deploy.clean</code> in <code>config.rb</code> will be used.</p>
+<h2>NOTES</h2>
 
-<h3>NOTES</h3>
+<p>When the <code>--clean</code> or <code>--no-clean</code> option is passed to <code>middleman
+build</code> it will not be passed to <code>middleman deploy</code>. For now only the
+value of <code>deploy.clean</code> in <code>config.rb</code> will be used.</p>
 
-<p>Inspired by the rsync task in <a href="https://github.com/imathis/octopress">Octopress</a>.</p>
+<p>Inspired by the rsync task in
+<a href="https://github.com/imathis/octopress">Octopress</a>.</p>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
