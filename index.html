@@ -31,23 +31,26 @@
       </header>
       <section>
         <p>Middleman Deploy - Deploy a <a href="http://middlemanapp.com/">middleman</a>
-built site over rsync, ftp, or git (e.g. gh-pages on github).</p>
+built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).</p>
 
 <p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
 
-<h1>QUICK START</h1>
+<h1>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>QUICK START</h1>
 
-<h2>Step 1</h2>
+<h2>
+<a name="step-1" class="anchor" href="#step-1"><span class="octicon octicon-link"></span></a>Step 1</h2>
 
 <pre><code>middleman init example-site
 cd example-site
 </code></pre>
 
-<h2>Step 2</h2>
+<h2>
+<a name="step-2" class="anchor" href="#step-2"><span class="octicon octicon-link"></span></a>Step 2</h2>
 
 <p>Edit <code>Gemfile</code>, and add:</p>
 
-<pre><code>gem "middleman-deploy", "~&gt; 0.0.12"
+<pre><code>gem "middleman-deploy", "&gt;= 0.1.0"
 </code></pre>
 
 <p>Then run:</p>
@@ -55,7 +58,8 @@ cd example-site
 <pre><code>bundle install
 </code></pre>
 
-<h2>Step 3a - Rsync setup</h2>
+<h2>
+<a name="step-3a---rsync-setup" class="anchor" href="#step-3a---rsync-setup"><span class="octicon octicon-link"></span></a>Step 3a - Rsync setup</h2>
 
 <p>First be sure that <code>rsync</code> is installed.</p>
 
@@ -89,7 +93,8 @@ end
 
 <p>Default is <code>false</code>.</p>
 
-<h2>Step 3b - Git setup</h2>
+<h2>
+<a name="step-3b---git-setup" class="anchor" href="#step-3b---git-setup"><span class="octicon octicon-link"></span></a>Step 3b - Git setup</h2>
 
 <p>First be sure that <code>git</code> is installed.</p>
 
@@ -126,7 +131,8 @@ you use a git url, it must end with '.git'.</p>
 <p>Default is <code>gh-pages</code>. This branch will be created on the remote if it
 doesn't already exist.</p>
 
-<h2>Step 3c - FTP setup</h2>
+<h2>
+<a name="step-3c---ftp-setup" class="anchor" href="#step-3c---ftp-setup"><span class="octicon octicon-link"></span></a>Step 3c - FTP setup</h2>
 
 <p><strong>These settings are required.</strong></p>
 
@@ -143,24 +149,59 @@ end
 
 <p>Adjust these values accordingly.</p>
 
-<h2>Step 4</h2>
+<h2>
+<a name="step-3d---sftp-setup" class="anchor" href="#step-3d---sftp-setup"><span class="octicon octicon-link"></span></a>Step 3d - SFTP setup</h2>
 
-<pre><code>middleman build [--clean]
-middleman deploy [--clean]
+<p><strong>These settings are required.</strong></p>
+
+<p>Edit <code>config.rb</code>, and add:</p>
+
+<pre><code>activate :deploy do |deploy|
+  deploy.method = :sftp
+  deploy.host = "sftp.example.com"
+  deploy.user = "tvaughan"
+  deploy.password = "secret"
+  deploy.path = "/srv/www/site"
+end
 </code></pre>
 
-<p>To automatically run middleman-deploy after <code>middleman build</code>, add:</p>
+<p>Adjust these values accordingly.</p>
 
-<pre><code>  deploy.after_build = true
+<h2>
+<a name="step-4" class="anchor" href="#step-4"><span class="octicon octicon-link"></span></a>Step 4</h2>
+
+<pre><code>middleman build [--clean]
+middleman deploy [--build-before]
+</code></pre>
+
+<p>To run <code>middleman build</code> before <code>middleman deploy</code>, add:</p>
+
+<pre><code>deploy.build_before = true
 </code></pre>
 
 <p>Default is <code>false</code>.</p>
 
-<h2>NOTES</h2>
+<h2>
+<a name="breaking-changes" class="anchor" href="#breaking-changes"><span class="octicon octicon-link"></span></a>BREAKING CHANGES</h2>
 
-<p>When the <code>--clean</code> or <code>--no-clean</code> option is passed to <code>middleman
-build</code> it will not be passed to <code>middleman deploy</code>. For now only the
-value of <code>deploy.clean</code> in <code>config.rb</code> will be used.</p>
+<ul>
+<li>
+<p>v0.1.0</p>
+
+<ul>
+<li>Removed the <code>--clean</code> command-line option. This option only applied
+to the rsync deploy method. The idea going forward is that
+command-line options must apply to all deploy methods. Options that
+are specific to a deploy method will only be available in
+<code>config.rb</code>.</li>
+<li>Removed <code>deploy</code> from the <code>after_build</code> hook. This caused a
+<code>deploy</code> to be run each time <code>build</code> was called. This workflow never
+made sense. <code>deploy</code> was added to the <code>after_build</code> hook simply
+because it was available.</li>
+</ul>
+</li>
+</ul><h2>
+<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>NOTES</h2>
 
 <p>Inspired by the rsync task in
 <a href="https://github.com/imathis/octopress">Octopress</a>.</p>
