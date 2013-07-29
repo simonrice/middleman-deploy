@@ -17,7 +17,7 @@
     <div class="wrapper">
       <header>
         <h1 class="header">Middleman Deploy</h1>
-        <p class="header">Deploy a middleman built site over rsync, ftp, or git (e.g. gh-pages on github).</p>
+        <p class="header">Deploy a middleman built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/tvaughan/middleman-deploy/zipball/master">Download ZIP</a></li>
@@ -30,178 +30,137 @@
 
       </header>
       <section>
-        <p>Middleman Deploy - Deploy a <a href="http://middlemanapp.com/">middleman</a>
-built site over rsync, ftp, sftp, or git (e.g. gh-pages on github).</p>
+        <h1>
+<a name="middleman-deploy-" class="anchor" href="#middleman-deploy-"><span class="octicon octicon-link"></span></a>middleman-deploy <a href="https://travis-ci.org/tvaughan/middleman-deploy"><img src="https://travis-ci.org/tvaughan/middleman-deploy.png?branch=master" alt="Build Status"></a>
+</h1>
 
-<p><a href="http://travis-ci.org/tvaughan/middleman-deploy"><img src="https://secure.travis-ci.org/tvaughan/middleman-deploy.png" alt="Build Status"></a></p>
-
-<h1>
-<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>QUICK START</h1>
-
-<h2>
-<a name="step-1" class="anchor" href="#step-1"><span class="octicon octicon-link"></span></a>Step 1</h2>
-
-<pre><code>middleman init example-site
-cd example-site
-</code></pre>
+<p>Deploys a <a href="http://middlemanapp.com/">middleman</a> built site via <strong>rsync</strong>,
+<strong>ftp</strong>, <strong>sftp</strong>, or <strong>git</strong> (e.g. gh-pages on github).</p>
 
 <h2>
-<a name="step-2" class="anchor" href="#step-2"><span class="octicon octicon-link"></span></a>Step 2</h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>Edit <code>Gemfile</code>, and add:</p>
+<p>Add this to the Gemfile of the repository of your middleman site:</p>
 
-<pre><code>gem "middleman-deploy", "&gt;= 0.1.0"
-</code></pre>
+<div class="highlight"><pre><span class="n">gem</span> <span class="s2">"middleman-deploy"</span>
+</pre></div>
 
-<p>Then run:</p>
-
-<pre><code>bundle install
-</code></pre>
+<p>and run <code>bundle install</code>.</p>
 
 <h2>
-<a name="step-3a---rsync-setup" class="anchor" href="#step-3a---rsync-setup"><span class="octicon octicon-link"></span></a>Step 3a - Rsync setup</h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>First be sure that <code>rsync</code> is installed.</p>
-
-<p><strong>These settings are required.</strong></p>
-
-<p>Edit <code>config.rb</code>, and add:</p>
-
-<pre><code>activate :deploy do |deploy|
-  deploy.method = :rsync
-  deploy.user = "tvaughan"
-  deploy.host = "www.example.com"
-  deploy.path = "/srv/www/site"
-end
+<pre><code>$ middleman build [--clean]
+$ middleman deploy [--build-before]
 </code></pre>
 
-<p>Adjust these values accordingly.</p>
+<p>To automatically run <code>middleman build</code> during <code>middleman deploy</code>, turn on the
+<code>build_before</code> option while activating the deploy extension:</p>
 
-<p><strong>These settings are optional.</strong></p>
-
-<p>To use a particular SSH port, add:</p>
-
-<pre><code>  deploy.port = 5309
-</code></pre>
-
-<p>Default is <code>22</code>.</p>
-
-<p>To remove orphaned files or directories on the remote host, add:</p>
-
-<pre><code>  deploy.clean = true
-</code></pre>
-
-<p>Default is <code>false</code>.</p>
+<div class="highlight"><pre><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
+  <span class="c1"># ...</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">build_before</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1"># default: false</span>
+<span class="k">end</span>
+</pre></div>
 
 <h2>
-<a name="step-3b---git-setup" class="anchor" href="#step-3b---git-setup"><span class="octicon octicon-link"></span></a>Step 3b - Git setup</h2>
+<a name="possible-configurations" class="anchor" href="#possible-configurations"><span class="octicon octicon-link"></span></a>Possible Configurations</h2>
 
-<p>First be sure that <code>git</code> is installed.</p>
+<p>Middleman-deploy can deploy a site via rsync, ftp, sftp, or git.</p>
 
-<p><strong>These settings are required.</strong></p>
+<h3>
+<a name="rsync" class="anchor" href="#rsync"><span class="octicon octicon-link"></span></a>rsync</h3>
 
-<p>Edit <code>config.rb</code>, and add:</p>
+<p>Make sure that <code>rsync</code> is installed, and activate the extension by adding the
+following to <code>config.rb</code>:</p>
 
-<pre><code>activate :deploy do |deploy|
-  deploy.method = :git
-end
-</code></pre>
+<div class="highlight"><pre><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="ss">:rsync</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">user</span>   <span class="o">=</span> <span class="s2">"tvaughan"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">host</span>   <span class="o">=</span> <span class="s2">"www.example.com"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">path</span>   <span class="o">=</span> <span class="s2">"/srv/www/site"</span>
+  <span class="c1"># Optional Settings</span>
+  <span class="c1"># deploy.port  = 5309 # ssh port, default: 22</span>
+  <span class="c1"># deploy.clean = true # remove orphaned files on remote host, default: false</span>
+<span class="k">end</span>
+</pre></div>
 
-<p>By default this will deploy to the <code>gh-pages</code> branch on the <code>origin</code>
-remote. The <code>build</code> directory will become a git repo.</p>
+<h3>
+<a name="git-eg-github-pages" class="anchor" href="#git-eg-github-pages"><span class="octicon octicon-link"></span></a>Git (e.g. GitHub Pages)</h3>
 
-<p><strong>These settings are optional.</strong></p>
+<p>Make sure that <code>git</code> is installed, and activate the extension by adding the
+following to <code>config.rb</code>:</p>
 
-<p>To use a particular remote, add:</p>
+<div class="highlight"><pre><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="ss">:git</span>
+  <span class="c1"># Optional Settings</span>
+  <span class="c1"># deploy.remote = "custom-remote" # remote name or git url, default: origin</span>
+  <span class="c1"># deploy.branch = "custom-branch" # default: gh-pages</span>
+<span class="k">end</span>
+</pre></div>
 
-<pre><code>  deploy.remote = "some-other-remote-name"
-</code></pre>
+<p>If you use a remote name, you must first add it using <code>git remote add</code>. Run
+<code>git remote -v</code> to see a list of possible remote names. If you use a git url,
+it must end with '.git'.</p>
 
-<p>Default is <code>origin</code>. This can be a remote name or a git url.</p>
+<p>Afterwards, the <code>build</code> directory will become a git repo. This branch will be
+created on the remote if it doesn't already exist.</p>
 
-<p>If you use a remote name, you must first add it using <code>git remote
-add</code>. Run <code>git remote -v</code> to see a list of possible remote names. If
-you use a git url, it must end with '.git'.</p>
+<h3>
+<a name="ftp" class="anchor" href="#ftp"><span class="octicon octicon-link"></span></a>FTP</h3>
 
-<p>To use a particular branch, add:</p>
+<p>Activate the extension by adding the following to <code>config.rb</code>:</p>
 
-<pre><code>  deploy.branch = "some-other-branch-name"
-</code></pre>
+<div class="highlight"><pre><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">method</span>   <span class="o">=</span> <span class="ss">:ftp</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">host</span>     <span class="o">=</span> <span class="s2">"ftp.example.com"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">user</span>     <span class="o">=</span> <span class="s2">"tvaughan"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">"secret"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">path</span>     <span class="o">=</span> <span class="s2">"/srv/www/site"</span>
+<span class="k">end</span>
+</pre></div>
 
-<p>Default is <code>gh-pages</code>. This branch will be created on the remote if it
-doesn't already exist.</p>
+<h3>
+<a name="sftp" class="anchor" href="#sftp"><span class="octicon octicon-link"></span></a>SFTP</h3>
 
-<h2>
-<a name="step-3c---ftp-setup" class="anchor" href="#step-3c---ftp-setup"><span class="octicon octicon-link"></span></a>Step 3c - FTP setup</h2>
+<p>Activate the extension by adding the following to <code>config.rb</code>:</p>
 
-<p><strong>These settings are required.</strong></p>
-
-<p>Edit <code>config.rb</code>, and add:</p>
-
-<pre><code>activate :deploy do |deploy|
-  deploy.method = :ftp
-  deploy.host = "ftp.example.com"
-  deploy.user = "tvaughan"
-  deploy.password = "secret"
-  deploy.path = "/srv/www/site"
-end
-</code></pre>
-
-<p>Adjust these values accordingly.</p>
-
-<h2>
-<a name="step-3d---sftp-setup" class="anchor" href="#step-3d---sftp-setup"><span class="octicon octicon-link"></span></a>Step 3d - SFTP setup</h2>
-
-<p><strong>These settings are required.</strong></p>
-
-<p>Edit <code>config.rb</code>, and add:</p>
-
-<pre><code>activate :deploy do |deploy|
-  deploy.method = :sftp
-  deploy.host = "sftp.example.com"
-  deploy.user = "tvaughan"
-  deploy.password = "secret"
-  deploy.path = "/srv/www/site"
-end
-</code></pre>
-
-<p>Adjust these values accordingly.</p>
+<div class="highlight"><pre><span class="n">activate</span> <span class="ss">:deploy</span> <span class="k">do</span> <span class="o">|</span><span class="n">deploy</span><span class="o">|</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">method</span>   <span class="o">=</span> <span class="ss">:sftp</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">host</span>     <span class="o">=</span> <span class="s2">"sftp.example.com"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">user</span>     <span class="o">=</span> <span class="s2">"tvaughan"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">"secret"</span>
+  <span class="n">deploy</span><span class="o">.</span><span class="n">path</span>     <span class="o">=</span> <span class="s2">"/srv/www/site"</span>
+<span class="k">end</span>
+</pre></div>
 
 <h2>
-<a name="step-4" class="anchor" href="#step-4"><span class="octicon octicon-link"></span></a>Step 4</h2>
-
-<pre><code>middleman build [--clean]
-middleman deploy [--build-before]
-</code></pre>
-
-<p>To run <code>middleman build</code> before <code>middleman deploy</code>, add:</p>
-
-<pre><code>deploy.build_before = true
-</code></pre>
-
-<p>Default is <code>false</code>.</p>
-
-<h2>
-<a name="breaking-changes" class="anchor" href="#breaking-changes"><span class="octicon octicon-link"></span></a>BREAKING CHANGES</h2>
+<a name="breaking-changes" class="anchor" href="#breaking-changes"><span class="octicon octicon-link"></span></a>Breaking Changes</h2>
 
 <ul>
 <li>
-<p>v0.1.0</p>
+<code>v0.1.0</code>
 
 <ul>
-<li>Removed the <code>--clean</code> command-line option. This option only applied
-to the rsync deploy method. The idea going forward is that
-command-line options must apply to all deploy methods. Options that
-are specific to a deploy method will only be available in
-<code>config.rb</code>.</li>
-<li>Removed <code>deploy</code> from the <code>after_build</code> hook. This caused a
-<code>deploy</code> to be run each time <code>build</code> was called. This workflow never
-made sense. <code>deploy</code> was added to the <code>after_build</code> hook simply
-because it was available.</li>
+<li>Removed the <code>--clean</code> command-line option. This option only applied to
+the rsync deploy method. The idea going forward is that command-line
+options must apply to all deploy methods. Options that are specific to a
+deploy method will only be available in <code>config.rb</code>.</li>
+<li>Removed <code>deploy</code> from the <code>after_build</code> hook. This caused a <code>deploy</code> to
+be run each time <code>build</code> was called. This workflow never made
+sense. <code>deploy</code> was added to the <code>after_build</code> hook simply because it
+was available.</li>
 </ul>
 </li>
 </ul><h2>
-<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>NOTES</h2>
+<a name="thanks" class="anchor" href="#thanks"><span class="octicon octicon-link"></span></a>Thanks!</h2>
+
+<p>A <strong>BIG</strong> thanks to
+<a href="https://github.com/tvaughan/middleman-deploy/graphs/contributors">everyone who has contributed</a>!
+Almost all pull requests are accepted.</p>
+
+<h2>
+<a name="other" class="anchor" href="#other"><span class="octicon octicon-link"></span></a>Other</h2>
 
 <p>Inspired by the rsync task in
 <a href="https://github.com/imathis/octopress">Octopress</a>.</p>
